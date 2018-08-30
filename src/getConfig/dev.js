@@ -49,7 +49,7 @@ webpackConfig.output.publicPath = config.output.publicPath || '/';
 webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugin);
 
 webpackConfig.babel.plugins = webpackConfig.babel.plugins || [];
-if(config.babel.plugins){
+if(config.babel && config.babel.plugins && config.babel.plugins.length){
     webpackConfig.babel.plugins = webpackConfig.babel.plugins.concat(config.babel.plugins)
 }
 if(config.externals){

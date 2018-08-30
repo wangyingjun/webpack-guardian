@@ -1,9 +1,10 @@
 {
   "name": "webpack-guardian",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "key": "webpack ie8 cli tool",
   "description": "guardian webpack project",
   "bin": "./bin/webpack-guardian.js",
+  "main": "./lib/webpack-guardian.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
