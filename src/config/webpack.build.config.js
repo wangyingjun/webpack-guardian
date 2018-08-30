@@ -42,7 +42,9 @@ module.exports = merge(baseConfig, {
         new Webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        new ExtractTextPlugin("style/[name].[hash:8].css"),
+        new ExtractTextPlugin("style/[name].[hash:8].css",{
+            allChunks: true
+        }),
         new Webpack.optimize.UglifyJsPlugin({
             compress: {
                 properties: false,
