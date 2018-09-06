@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const Webpack = require('webpack');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const path = require('path');
 const cwd = process.cwd();
 const baseConfig = require('./webpack.base.config')
@@ -36,7 +37,8 @@ module.exports = merge(baseConfig, {
     plugins: [
         new Webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
-        })
+        }),
+        new FriendlyErrorsPlugin(),
     ],
     devServer: {
         contentBase: path.join(cwd, './dist/'),

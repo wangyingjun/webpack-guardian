@@ -1,6 +1,6 @@
 const { join, resolve, basename } = require('path');
 const { existsSync, readFileSync } = require('fs');
-
+const Webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -45,6 +45,13 @@ const htmlPlugin = new HtmlWebpackPlugin({
         removeAttributeQuotes: true
     }
 })
+
+if(config.env){
+    let envKeys = Object.keys(config.env);
+    if(envKeys.length){
+        webpackConfig.plugins = webpackConfig.plugins.concat(new Webpack.DefinePlugin(config.env));
+    }
+}
 
 config.output = config.output || {};
 webpackConfig.output.publicPath = config.output.publicPath || '/';

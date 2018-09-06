@@ -1,6 +1,6 @@
 const { join, resolve, basename } = require('path');
 const { existsSync, readFileSync } = require('fs');
-
+const Webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -47,6 +47,12 @@ config.output = config.output || {};
 webpackConfig.output.publicPath = config.output.publicPath || '/';
 
 webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugin);
+if(config.env){
+    let envKeys = Object.keys(config.env);
+    if(envKeys.length){
+        webpackConfig.plugins = webpackConfig.plugins.concat(new Webpack.DefinePlugin(config.env));
+    }
+}
 
 webpackConfig.babel.plugins = webpackConfig.babel.plugins || [];
 if(config.babel && config.babel.plugins && config.babel.plugins.length){
