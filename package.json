@@ -1,6 +1,6 @@
 {
   "name": "webpack-guardian",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "key": "webpack react ie8 cli tool",
   "description": "guardian webpack project",
   "bin": "./bin/webpack-guardian.js",
@@ -28,6 +28,7 @@
     "es3ify-loader": "^0.2.0",
     "es6-promise": "^3.3.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.1.0",
     "node-sass": "^4.9.2",

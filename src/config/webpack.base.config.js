@@ -24,27 +24,15 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: require.resolve('url-loader'),
-                options: {
-                    limit: 10000,
-                    name: 'fonts/[name].[hash:7].[ext]'
-                }
+                loader: require.resolve('url-loader')+'?limit=10000&fonts=media/[name].[hash:7].[ext]'
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: require.resolve('url-loader'),
-                options: {
-                  limit: 10000,
-                  name: 'media/[name].[hash:7].[ext]'
-                }
+                loader: require.resolve('url-loader')+'?limit=10000&name=media/[name].[hash:7].[ext]'
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: require.resolve('url-loader'),
-                options: {
-                    limit: 10000,
-                    name: 'img/[name].[hash:7].[ext]'
-                }
+                loader: require.resolve('url-loader')+'?limit=10000&name=img/[name].[hash:7].[ext]'
             }
         ],
         postLoaders: [
