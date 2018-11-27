@@ -45,6 +45,20 @@ module.exports = merge(baseConfig, {
         new ExtractTextPlugin("style/[name].[hash:8].css",{
             allChunks: true
         }),
+        new Webpack.optimize.UglifyJsPlugin({
+            compress: {
+                properties: false,
+                warnings: false
+            },
+            output: {
+                beautify: true,
+                quote_keys: true
+            },
+            mangle: {
+                screw_ie8: false
+            },
+            sourceMap: false
+        }),
         new Webpack.optimize.CommonsChunkPlugin({
             name: ['vendor','runtime'],
             filename: 'js/[name].[hash].js',
@@ -54,11 +68,6 @@ module.exports = merge(baseConfig, {
             children: true,
             async: 'children-async'
         }),
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ie8: true
-            }
-        })
     ],
     devServer: {
         contentBase: path.join(cwd, './dist/'),
