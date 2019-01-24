@@ -84,4 +84,6 @@ webpackConfig.devServer.proxy = config.proxy || {};
 
 webpackConfig.devServer.inline = config.inline === undefined ? true : config.inline;
 
+webpackConfig.devServer.disableHostCheck = config.disableHostCheck;
+
 module.exports = webpackConfig;

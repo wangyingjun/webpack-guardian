@@ -5,6 +5,7 @@ const Webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const webpackConfig = require('../config/webpack.build.config');
+const webpackConfigDev = require('../config/webpack.dev.config');
 
 const cwd = process.cwd();
 
@@ -45,6 +46,10 @@ const htmlPlugin = new HtmlWebpackPlugin({
         removeAttributeQuotes: true
     }
 })
+
+if(config.disableExtractText){
+    webpackConfig.module.loaders = webpackConfigDev.module.loaders
+}
 
 if(config.env){
     let envKeys = Object.keys(config.env);
