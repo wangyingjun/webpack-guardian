@@ -77,5 +77,22 @@ if(config.resolve && config.resolve.alias){
         webpackConfig.resolve.alias[key] = resolve(cwd, alias[key])
     })
 }
+//post-css plugins
 
+webpackConfig.postcss = () => {
+    if(Array.isArray(config.postcss) && config.postcss.length > 0 ){
+        return [
+            require('autoprefixer')({
+                browsers: [
+                    "> 1%",
+                    "last 2 versions",
+                    "ie 8"
+                ]
+            }),
+            ...config.postcss
+        ]
+    }
+    return config.postcss;
+
+}
 module.exports = webpackConfig;

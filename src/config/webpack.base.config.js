@@ -42,17 +42,6 @@ module.exports = {
             }
         ]
     },
-    postcss: () => {
-        return [
-            require('autoprefixer')({
-                browsers: [
-                    "> 1%",
-                    "last 2 versions",
-                    "ie 8"
-                ]
-            })
-        ];
-    },
     babel: {
         presets: [require.resolve("babel-preset-es2015"), require.resolve("babel-preset-react"), require.resolve("babel-preset-stage-0")],
         plugins: [require.resolve("babel-plugin-transform-runtime")]
