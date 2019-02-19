@@ -1,7 +1,19 @@
 const Webpack = require('webpack');
 const path = require('path');
+const { existsSync } = require('fs');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const cwd = process.cwd();
+
+// post-css config
+const configFile = path.resolve(cwd, '.webpackrc.js');
+let extraConfig = {}, postCssConfig = [];
+if(existsSync(configFile)){
+    extraConfig = require(configFile);
+}
+if(Array.isArray(extraConfig.postcss) && extraConfig.postcss.length > 0 ){
+    postCssConfig = extraConfig.postcss
+}
+
 module.exports = {
     context: cwd,
     resolve: {
@@ -41,6 +53,18 @@ module.exports = {
                 loaders: [require.resolve('es3ify-loader')]
             }
         ]
+    },
+    postcss: () => {
+        return [
+            require('autoprefixer')({
+                browsers: [
+                    "> 1%",
+                    "last 2 versions",
+                    "ie 8"
+                ]
+            }),
+            ...postCssConfig
+        ];
     },
     babel: {
         presets: [require.resolve("babel-preset-es2015"), require.resolve("babel-preset-react"), require.resolve("babel-preset-stage-0")],
