@@ -16,7 +16,24 @@ module.exports = merge(baseConfig, {
     module: {
         loaders: [
             {
-                test: /\.css$/,
+                test: /\.modules\.css$/,
+                loaders: [
+                    require.resolve('style-loader'),
+                    require.resolve('css-loader')+'?modules',
+                    require.resolve('postcss-loader')
+                ]
+            },
+            {
+                test: /\.modules\.scss$/,
+                loaders: [
+                    require.resolve('style-loader'),
+                    require.resolve('css-loader')+'?modules',
+                    require.resolve('postcss-loader'),
+                    require.resolve('sass-loader')
+                ]
+            },
+            {
+                test: /([^\.modules])\.css$/,
                 loaders: [
                     require.resolve('style-loader'),
                     require.resolve('css-loader'),
@@ -24,7 +41,7 @@ module.exports = merge(baseConfig, {
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /([^\.modules])\.scss$/,
                 loaders: [
                     require.resolve('style-loader'),
                     require.resolve('css-loader'),
