@@ -19,7 +19,7 @@ module.exports = merge(baseConfig, {
                 test: /\.modules\.css$/,
                 loaders: [
                     require.resolve('style-loader'),
-                    require.resolve('css-loader')+'?modules',
+                    require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
                     require.resolve('postcss-loader')
                 ]
             },
@@ -27,7 +27,7 @@ module.exports = merge(baseConfig, {
                 test: /\.modules\.scss$/,
                 loaders: [
                     require.resolve('style-loader'),
-                    require.resolve('css-loader')+'?modules',
+                    require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
                     require.resolve('postcss-loader'),
                     require.resolve('sass-loader')
                 ]

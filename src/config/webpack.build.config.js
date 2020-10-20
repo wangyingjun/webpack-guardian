@@ -20,7 +20,7 @@ module.exports = merge(baseConfig, {
                 test: /\.modules\.css$/,
                 loader: ExtractTextPlugin.extract(
                     [
-                        require.resolve('css-loader')+'?modules',
+                        require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
                         require.resolve('postcss-loader')
                     ]
                 )
@@ -29,7 +29,7 @@ module.exports = merge(baseConfig, {
                 test: /\.modules\.scss$/,
                 loader: ExtractTextPlugin.extract(
                     [
-                        require.resolve('css-loader')+'?modules',
+                        require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
                         require.resolve('postcss-loader'),
                         require.resolve('sass-loader')
                     ]
