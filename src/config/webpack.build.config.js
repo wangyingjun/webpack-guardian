@@ -18,41 +18,33 @@ module.exports = merge(baseConfig, {
         loaders: [
             {
                 test: /\.modules\.css$/,
-                loader: ExtractTextPlugin.extract(
-                    [
-                        require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
-                        require.resolve('postcss-loader')
-                    ]
-                )
+                loader: [
+                    require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
+                    require.resolve('postcss-loader')
+                ]
             },
             {
                 test: /\.modules\.scss$/,
-                loader: ExtractTextPlugin.extract(
-                    [
-                        require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
-                        require.resolve('postcss-loader'),
-                        require.resolve('sass-loader')
-                    ]
-                )
+                loader: [
+                    require.resolve('css-loader')+'?modules&localIdentName=[local]--[hash:base64:5]',
+                    require.resolve('postcss-loader'),
+                    require.resolve('sass-loader')
+                ]
             },
             {
                 test: /(?<!\.modules)\.css$/,
-                loader: ExtractTextPlugin.extract(
-                    [
-                        require.resolve('css-loader'),
-                        require.resolve('postcss-loader')
-                    ]
-                )
+                loader: [
+                    require.resolve('css-loader'),
+                    require.resolve('postcss-loader')
+                ]
             },
             {
                 test: /(?<!\.modules)\.scss$/,
-                loader: ExtractTextPlugin.extract(
-                    [
-                        require.resolve('css-loader'),
-                        require.resolve('postcss-loader'),
-                        require.resolve('sass-loader')
-                    ]
-                )
+                loader: [
+                    require.resolve('css-loader'),
+                    require.resolve('postcss-loader'),
+                    require.resolve('sass-loader')
+                ]
             },
         ]
     },
