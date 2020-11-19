@@ -5,6 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path');
 const cwd = process.cwd();
 const baseConfig = require('./webpack.base.config')
+
 module.exports = merge(baseConfig, {
     devtool: false,
     entry: [path.join(cwd,'src/app.js')],
@@ -36,7 +37,7 @@ module.exports = merge(baseConfig, {
                 )
             },
             {
-                test: /(?<!\.modules)\.css$/,
+                test: /^((?!\.modules).)*\.css$/,
                 loader: ExtractTextPlugin.extract(
                     [
                         require.resolve('css-loader'),
@@ -45,7 +46,7 @@ module.exports = merge(baseConfig, {
                 )
             },
             {
-                test: /(?<!\.modules)\.scss$/,
+                test: /^((?!\.modules).)*\.scss$/,
                 loader: ExtractTextPlugin.extract(
                     [
                         require.resolve('css-loader'),
