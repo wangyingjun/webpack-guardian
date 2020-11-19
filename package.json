@@ -1,6 +1,6 @@
 {
   "name": "webpack-guardian",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "key": "webpack react ie8 cli tool",
   "description": "guardian webpack project",
   "bin": "./bin/webpack-guardian.js",

@@ -33,7 +33,7 @@ module.exports = merge(baseConfig, {
                 ]
             },
             {
-                test: /(?<!\.modules)\.css$/,
+                test: /^((?!\.modules).)*\.css$/,
                 loaders: [
                     require.resolve('style-loader'),
                     require.resolve('css-loader'),
@@ -41,7 +41,7 @@ module.exports = merge(baseConfig, {
                 ]
             },
             {
-                test: /(?<!\.modules)\.scss$/,
+                test: /^((?!\.modules).)*\.scss$/,
                 loaders: [
                     require.resolve('style-loader'),
                     require.resolve('css-loader'),
