@@ -2,7 +2,6 @@ const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const WebpackDevServerClient = require.resolve('webpack-dev-server/client');
 const WebpackHotServer = require.resolve('webpack/hot/dev-server');
-const open = require('open');
 const server = (wpOpt, options) => {
 	var protocol = options.https ? "https" : "http";
     if(options.inline) {
@@ -26,8 +25,6 @@ const server = (wpOpt, options) => {
             uri += "webpack-dev-server/";
         if(err) throw err;
         console.log(" " + uri);
-        if(options.open)
-			open(uri);
     })
 }
 module.exports = server;

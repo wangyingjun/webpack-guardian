@@ -5,7 +5,6 @@ const Webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const webpackConfig = require('../config/webpack.build.config');
-const webpackConfigDev = require('../config/webpack.dev.config');
 
 const cwd = process.cwd();
 
@@ -47,10 +46,6 @@ const htmlPlugin = new HtmlWebpackPlugin({
     }
 })
 
-if(config.disableExtractText){
-    webpackConfig.module.loaders = webpackConfigDev.module.loaders
-}
-
 if(config.env){
     let envKeys = Object.keys(config.env);
     if(envKeys.length){
@@ -63,10 +58,6 @@ webpackConfig.output.publicPath = config.output.publicPath || '/';
 
 webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugin);
 
-webpackConfig.babel.plugins = webpackConfig.babel.plugins || [];
-if(config.babel.plugins){
-    webpackConfig.babel.plugins = webpackConfig.babel.plugins.concat(config.babel.plugins)
-}
 if(config.externals){
     webpackConfig.externals = config.externals
 }

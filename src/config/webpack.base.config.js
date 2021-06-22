@@ -1,73 +1,77 @@
 const Webpack = require('webpack');
 const path = require('path');
 const { existsSync } = require('fs');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const cwd = process.cwd();
 
 // post-css config
 const configFile = path.resolve(cwd, '.webpackrc.js');
-let extraConfig = {}, postCssConfig = [];
+let extraConfig = {}, babelConfig = {presets: [], plugins: []};
 if(existsSync(configFile)){
     extraConfig = require(configFile);
 }
-if(Array.isArray(extraConfig.postcss) && extraConfig.postcss.length > 0 ){
-    postCssConfig = extraConfig.postcss
+if(Array.isArray(extraConfig.babel) ){
+    babelConfig = extraConfig.babel
 }
 
 module.exports = {
-    context: cwd,
+    context: path.resolve(cwd, './src'),
     resolve: {
-        extensions: ['', '.js', '.jsx', '.json'],
+        extensions: ['.js', '.jsx', '.json'],
         alias: {
             '~': path.resolve(cwd, './src')
         }
     },
     plugins: [
         new Webpack.HotModuleReplacementPlugin(),
-        new ProgressBarPlugin(),
-        new Webpack.NoErrorsPlugin(),
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.(js|jsx)$/,
-                include: [path.resolve(cwd, 'src')],
-                loader: require.resolve('babel-loader')
+                include: [path.resolve(cwd, 'src'), path.resolve(__dirname, '../../node_modules')],
+                use: [{
+                    loader: require.resolve('babel-loader'),
+                    options: {
+                        presets: [
+                            [require.resolve('@babel/preset-env'), {
+                            "useBuiltIns": "usage",
+                            "corejs": 3
+                        }], require.resolve('@babel/preset-react'), ...babelConfig.presets],
+                        plugins: [require.resolve('@babel/plugin-syntax-dynamic-import')]
+                    }
+                }]
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: require.resolve('url-loader')+'?limit=10000&fonts=media/[name].[hash:7].[ext]'
+                use: [{
+                    loader: require.resolve('url-loader'),
+                    options: {
+                        limit: 10000,
+                        name: 'fonts/[name].[hash:7].[ext]'
+                    }
+                }]
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: require.resolve('url-loader')+'?limit=10000&name=media/[name].[hash:7].[ext]'
+                use: [{
+                    loader: require.resolve('url-loader'),
+                    options: {
+                        limit: 10000,
+                        name: 'media/[name].[hash:7].[ext]'
+                    }
+                }]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: require.resolve('url-loader')+'?limit=10000&name=img/[name].[hash:7].[ext]'
-            }
+                use: [{
+                    loader: require.resolve('url-loader'),
+                    options: {
+                        limit: 10000,
+                        name: 'img/[name].[hash:7].[ext]'
+                    }
+                }]
+            },
+            
         ],
-        postLoaders: [
-            {
-                test: /(\.js|jsx)$/,
-                loaders: [require.resolve('es3ify-loader')]
-            }
-        ]
     },
-    postcss: () => {
-        return [
-            require('autoprefixer')({
-                browsers: [
-                    "> 1%",
-                    "last 2 versions",
-                    "ie 8"
-                ]
-            }),
-            ...postCssConfig
-        ];
-    },
-    babel: {
-        presets: [require.resolve("babel-preset-es2015"), require.resolve("babel-preset-react"), require.resolve("babel-preset-stage-0")],
-        plugins: [require.resolve("babel-plugin-transform-runtime")]
-    }
 }

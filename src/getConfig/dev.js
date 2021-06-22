@@ -33,7 +33,7 @@ if(config.entry){
 }else{
     entry['index'] = './src/index.js';
 }
-entry['vendor'] = [require.resolve('es6-promise'), require.resolve('console-polyfill')]
+// entry['vendor'] = [require.resolve('es6-promise'), require.resolve('console-polyfill')]
 
 webpackConfig.entry = entry;
 
@@ -54,10 +54,6 @@ if(config.env){
     }
 }
 
-webpackConfig.babel.plugins = webpackConfig.babel.plugins || [];
-if(config.babel && config.babel.plugins && config.babel.plugins.length){
-    webpackConfig.babel.plugins = webpackConfig.babel.plugins.concat(config.babel.plugins)
-}
 if(config.externals){
     webpackConfig.externals = config.externals
 }
