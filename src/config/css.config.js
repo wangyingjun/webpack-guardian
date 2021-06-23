@@ -1,19 +1,12 @@
 const path = require('path');
-const { existsSync } = require('fs');
-const cwd = process.cwd();
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// post-css customer config
-const configFile = path.resolve(cwd, '.webpackrc.js');
-let extraConfig = {}, postCssConfig = [];
-if(existsSync(configFile)){
-    extraConfig = require(configFile);
-}
-if(Array.isArray(extraConfig.postcss) && extraConfig.postcss.length > 0 ){
-    postCssConfig = extraConfig.postcss
-}
-
-const getPostCssLoader = () => {
+const getPostCssLoader = (config) => {
+    // post-css customer config
+    let postCssConfig = [];
+    if(Array.isArray(config.postcss) && config.postcss.length > 0 ){
+        postCssConfig = config.postcss
+    }
     return {
         loader: require.resolve('postcss-loader'),
         options: {
@@ -35,7 +28,55 @@ const getCssLoader = (options = {modules: false}) => {
 }
 
 const exportConfig = (env) => {
-    if(env === 'dev'){
+    return (config) => {
+        if(env === 'dev'){
+            return {
+                module: {
+                    rules: [
+                        // scss css
+                        {
+                            test: /\.modules\.css$/,
+                            use: [
+                                require.resolve('style-loader'),
+                                getCssLoader({modules: {
+                                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                                }}),
+                                getPostCssLoader(config)
+                            ]
+                        },
+                        {
+                            test: /\.modules\.scss$/,
+                            use: [
+                                require.resolve('style-loader'),
+                                getCssLoader({modules: {
+                                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                                }}),
+                                getPostCssLoader(config),
+                                require.resolve('sass-loader')
+                            ]
+                        },
+                        {
+                            test: /^((?!\.modules).)*\.css$/,
+                            use: [
+                                require.resolve('style-loader'),
+                                getCssLoader(),
+                                getPostCssLoader(config)
+                            ]
+                        },
+                        {
+                            test: /^((?!\.modules).)*\.scss$/,
+                            use: [
+                                require.resolve('style-loader'),
+                                getCssLoader(),
+                                getPostCssLoader(config),
+                                require.resolve('sass-loader')
+                            ]
+                        },
+                    ]
+                }
+            }
+        }
+    
         return {
             module: {
                 rules: [
@@ -43,95 +84,49 @@ const exportConfig = (env) => {
                     {
                         test: /\.modules\.css$/,
                         use: [
-                            require.resolve('style-loader'),
+                            MiniCssExtractPlugin.loader,
                             getCssLoader({modules: {
                                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
                             }}),
-                            getPostCssLoader()
+                            getPostCssLoader(config)
                         ]
                     },
                     {
                         test: /\.modules\.scss$/,
                         use: [
-                            require.resolve('style-loader'),
+                            MiniCssExtractPlugin.loader,
                             getCssLoader({modules: {
                                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
                             }}),
-                            getPostCssLoader(),
+                            getPostCssLoader(config),
                             require.resolve('sass-loader')
                         ]
                     },
                     {
                         test: /^((?!\.modules).)*\.css$/,
                         use: [
-                            require.resolve('style-loader'),
+                            MiniCssExtractPlugin.loader,
                             getCssLoader(),
-                            getPostCssLoader()
+                            getPostCssLoader(config)
                         ]
                     },
                     {
                         test: /^((?!\.modules).)*\.scss$/,
                         use: [
-                            require.resolve('style-loader'),
+                            MiniCssExtractPlugin.loader,
                             getCssLoader(),
-                            getPostCssLoader(),
+                            getPostCssLoader(config),
                             require.resolve('sass-loader')
                         ]
                     },
                 ]
-            }
+            },
+            plugins: [
+                new MiniCssExtractPlugin({
+                filename: '[name].[contenthash].css',
+                }),
+            ],
         }
-    }
-
-    return {
-        module: {
-            rules: [
-                // scss css
-                {
-                    test: /\.modules\.css$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        getCssLoader({modules: {
-                            localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                        }}),
-                        getPostCssLoader()
-                    ]
-                },
-                {
-                    test: /\.modules\.scss$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        getCssLoader({modules: {
-                            localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                        }}),
-                        getPostCssLoader(),
-                        require.resolve('sass-loader')
-                    ]
-                },
-                {
-                    test: /^((?!\.modules).)*\.css$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        getCssLoader(),
-                        getPostCssLoader()
-                    ]
-                },
-                {
-                    test: /^((?!\.modules).)*\.scss$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        getCssLoader(),
-                        getPostCssLoader(),
-                        require.resolve('sass-loader')
-                    ]
-                },
-            ]
-        },
-        plugins: [
-            new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
-            }),
-        ],
     }
 }
 

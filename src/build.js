@@ -1,8 +1,15 @@
 const Webpack = require('webpack');
 const rimraf = require('rimraf');
-const webpackConfig = require('./getConfig/build');
-module.exports = () => {
-    rimraf.sync(webpackConfig.output.path);
+const getWebpackConfig = require('./getConfig/build');
+module.exports = ({config}) => {
+    const webpackConfig = getWebpackConfig(config)
+    if(Array.isArray(webpackConfig)){
+        webpackConfig.forEach( itemConfig => {
+            rimraf.sync(itemConfig.output.path);
+        })
+    }else{
+        rimraf.sync(webpackConfig.output.path);
+    }
     Webpack(webpackConfig,  (err, stats) => {
         if (err) {
             console.error(err.stack || err);
