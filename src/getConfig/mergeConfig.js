@@ -28,7 +28,7 @@ module.exports = (config, currentConfig) => {
 
     // output
     if(config.output){
-        webpackConfig.output = config.output;
+        webpackConfig.output = {...webpackConfig.output, ...config.output};
     }
 
     // externals
