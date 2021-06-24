@@ -1,6 +1,5 @@
 const server = require('./server');
 const getWebpackConfig = require('./getConfig/dev');
-const portfinder = require('portfinder');
 module.exports = ({config}) => {
     const webpackConfig = getWebpackConfig(config);
     let devServer = {};
@@ -9,13 +8,5 @@ module.exports = ({config}) => {
     }else{
         devServer = webpackConfig.devServer
     }
-    portfinder.basePort = devServer.port;
-    portfinder.getPort( (err, port) => {
-        if(err){
-            console.log(err);
-            return;
-        }
-        devServer.port = port;
-        server(webpackConfig, devServer)
-    })
+    server(webpackConfig, devServer)
 }
