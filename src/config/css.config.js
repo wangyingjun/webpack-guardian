@@ -123,7 +123,7 @@ const exportConfig = (env) => {
             },
             plugins: [
                 new MiniCssExtractPlugin({
-                filename: '[name].[contenthash].css',
+                filename: config.output&&config.output.library ? '[name].css' : '[name].[contenthash].css',
                 }),
             ],
         }

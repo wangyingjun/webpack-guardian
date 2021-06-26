@@ -69,8 +69,15 @@ module.exports = (config, currentConfig) => {
     // other plugins
     webpackConfig.plugins = webpackConfig.plugins.concat(config.plugins || []);
 
-    // devServer
+    // watch
+    if(config.watch){
+        webpackConfig.watch = config.watch;
+        if(config.watchOptions){
+            webpackConfig.watchOptions = config.watchOptions;
+        }
+    }
 
+    // devServer
     if(config.devServer){
         webpackConfig.devServer = {...webpackConfig.devServer, ...config.devServer}
     }
