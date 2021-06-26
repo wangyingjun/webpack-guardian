@@ -66,6 +66,9 @@ module.exports = (config, currentConfig) => {
     })
     webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugin);
 
+    // other plugins
+    webpackConfig.plugins = webpackConfig.plugins.concat(config.plugins || []);
+
     // devServer
 
     if(config.devServer){
