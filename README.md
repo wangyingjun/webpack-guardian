@@ -2,15 +2,7 @@
 
 webpack-guardian 是为了cli命令行工具，提供`dev`、`build`两个命令行
 
-**本项目采用 webpack 1.x 版本，作为IE8项目的配置工具命令行，为减小体积，请在 html模板 head标签中添加如下js,否则IE8下无法运行**
-```html
-<head>
-    <!--[if lt IE 9]>
-        <script src="https://cdn.bootcss.com/es5-shim/4.5.10/es5-shim.min.js"></script>
-        <script src="https://cdn.bootcss.com/es5-shim/4.5.10/es5-sham.min.js"></script>
-    <![endif]-->
-</head>
-```
+**本项目采用 webpack 5.x 版本，babel 7.x**
 
 ## 开始
 
@@ -28,49 +20,71 @@ $ webpack-guardian build
 ## 配置文件
 
 项目中创建 `.webpackrc.js` 文件,配置与webpack配置基本相同
-
+### `configuration`
 ```js
-#configuration
+const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     entry: './src/index.js',
     output: {
-        publicPath: '/register/',
+        publicPath: '/',
     },
-    dev: {
-        output: {
-            publicPath: '/',
-        },
-    },
+    // html-webpack-plugin 配置信息
     html: {
         template: './src/index.html'
     },
+    // babel 配置型芯
     babel: {
-        plugins: [
-			["import",
-			{
-				"libraryName": "antd",
-				"style": "css"
-			}]
-		]
+        preset: [],
+        plugins: []
     },
     externals: {
         react: 'React',
         'react-dom': 'ReactDOM',
     },
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                { from: "public", to: "public" },
+            ],
+        }),
+    ],
     resolve: {
         alias: {
-            'components': './src/components',
-            'common': './src/common',
-            'img': './src/img'
+            'components': './src/components'
         }
     },
-    proxy: {
+    // 环境变量
+    env: {
+        '__DEV__': process.env.BUILD_ENV === 'dev',
+        '__PROD__': process.env.BUILD_ENV === 'prod',
+        '__PRE__': process.env.BUILD_ENV === 'pre',
+        '__TEST__': process.env.BUILD_ENV === 'test',
+        '__MOCK__': process.env.PROXY_ENV === 'mock',
     },
-    port: 3001,
-    open: true,
-    inline: true
+    // devServer
+    devServer: {
+        proxy: {
+            "/api": {
+                target: "http://teacher.235.mistong.com/",
+                changeOrigin: true,
+                secure: false,
+                // pathRewrite: {"^/api" : ""},
+            },
+            // login用于登录验证千万别去掉啊
+            '/login': {
+              target: 'http://teacher.235.mistong.com',
+              changeOrigin: true,
+              secure: false,
+            },
+        },
+        host: 'local.mistong.com',
+        port: 3001,
+        open: true,
+        inline: true
+    }
 }
+
 ```
 
 ## 约定
@@ -78,6 +92,5 @@ module.exports = {
 ```
 默认值
 入口 ./src/index.js
-出口 ./dist  #不可修改
-dev环境配置 dev: {} #当前只增加 output.publicPath
+出口 ./dist  
 ```
