@@ -12,7 +12,7 @@ module.exports = (config = {}) => {
     return (
         {
             resolve: {
-                extensions: ['.js', '.jsx', '.json'],
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
                 alias: {
                     '~': path.resolve(cwd, './src')
                 }
@@ -23,16 +23,22 @@ module.exports = (config = {}) => {
             module: {
                 rules: [
                     {
-                        test: /\.(js|jsx)$/,
+                        test: /\.(jsx?|tsx?)$/,
                         include: [path.resolve(cwd, 'src')],
                         use: [{
                             loader: require.resolve('babel-loader'),
                             options: {
                                 presets: [
                                     [require.resolve('@babel/preset-env'), {
-                                    "useBuiltIns": "usage",
-                                    "corejs": 3
-                                }], require.resolve('@babel/preset-react'), ...babelConfig.presets],
+                                        "useBuiltIns": "usage",
+                                        "corejs": 3
+                                    }],
+                                    require.resolve('@babel/preset-react'),
+                                    [require.resolve('@babel/preset-typescript'),{
+                                        allowNamespaces: true
+                                    }],
+                                    ...babelConfig.presets
+                                ],
                                 plugins: [
                                     require.resolve('@babel/plugin-transform-runtime'),
                                     require.resolve('@babel/plugin-syntax-dynamic-import'),

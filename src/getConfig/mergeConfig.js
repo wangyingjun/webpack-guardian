@@ -11,18 +11,10 @@ module.exports = (config, currentConfig) => {
 
     // entry
     let entry = {};
-    if(config.entry){
-        let cEntry = config.entry;
-        if(typeof cEntry === 'string'){
-            entry[basename(cEntry, '.js')] = cEntry;
-        }
-        if(Array.isArray(cEntry)){
-            cEntry.forEach(item => {
-                entry[basename(item, '.js')] = item;
-            })
-        }
-    }else{
+    if(!config.entry){
         entry['index'] = './src/index.js';
+    }else{
+        entry = config.entry
     }
     webpackConfig.entry = entry;
 
