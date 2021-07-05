@@ -1,4 +1,3 @@
-const Webpack = require('webpack');
 const path = require('path');
 const cwd = process.cwd();
 
@@ -17,9 +16,6 @@ module.exports = (config = {}) => {
                     '~': path.resolve(cwd, './src')
                 }
             },
-            plugins: [
-                new Webpack.HotModuleReplacementPlugin(),
-            ],
             module: {
                 rules: [
                     {
@@ -40,7 +36,16 @@ module.exports = (config = {}) => {
                                     ...babelConfig.presets
                                 ],
                                 plugins: [
-                                    require.resolve('@babel/plugin-transform-runtime'),
+                                    [
+                                        require.resolve('@babel/plugin-transform-runtime'),
+                                        {
+                                            version: require('@babel/runtime/package.json').version,
+                                            absoluteRuntime: path.dirname(
+                                                require.resolve('@babel/runtime/package.json'),
+                                            ),
+                                            useESModules: true
+                                        }
+                                    ],
                                     require.resolve('@babel/plugin-syntax-dynamic-import'),
                                     ...babelConfig.plugins
                                 ]

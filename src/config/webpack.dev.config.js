@@ -1,3 +1,4 @@
+const Webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const cwd = process.cwd();
@@ -15,6 +16,9 @@ module.exports = (config) => {
             filename: '[name].js',
             publicPath: '/'
         },
+        plugins: [
+            new Webpack.HotModuleReplacementPlugin(),
+        ],
         devServer: {
             contentBase: path.join(cwd, './dist/'),
             open: true,
