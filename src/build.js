@@ -2,6 +2,7 @@ const Webpack = require('webpack');
 const rimraf = require('rimraf');
 const getWebpackConfig = require('./getConfig/build');
 module.exports = ({config}) => {
+    delete config.devServer
     const webpackConfig = getWebpackConfig(config)
     if(Array.isArray(webpackConfig)){
         webpackConfig.forEach( itemConfig => {
