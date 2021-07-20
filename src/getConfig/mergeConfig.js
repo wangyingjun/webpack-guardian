@@ -46,7 +46,7 @@ module.exports = (config, currentConfig) => {
     if(config.env){
         let envKeys = Object.keys(config.env);
         if(envKeys.length){
-            webpackConfig.plugins = webpackConfig.plugins.concat(new Webpack.DefinePlugin(config.env));
+            webpackConfig.plugins = (webpackConfig.plugins || []).concat(new Webpack.DefinePlugin(config.env));
         }
     }
 
@@ -56,10 +56,10 @@ module.exports = (config, currentConfig) => {
         template: config.html.template ? resolve(cwd, config.html.template) : '',
         filename: config.html.filename || 'index.html'
     })
-    webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugin);
+    webpackConfig.plugins = (webpackConfig.plugins || []).concat(htmlPlugin);
 
     // other plugins
-    webpackConfig.plugins = webpackConfig.plugins.concat(config.plugins || []);
+    webpackConfig.plugins = (webpackConfig.plugins || []).concat(config.plugins || []);
 
     // watch
     if(config.watch){
