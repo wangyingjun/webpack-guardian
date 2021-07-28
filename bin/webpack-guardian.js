@@ -15,5 +15,5 @@ switch (process.argv[2]) {
         require('../src/build')({config});
         break;
     default:
-    
+
 }

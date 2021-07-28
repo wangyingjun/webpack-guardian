@@ -19,15 +19,15 @@ module.exports = ({config}) => {
             }
             return;
         }
-    
+
         const info = stats.toJson({
             colors: true,
         });
-    
+
         if (stats.hasErrors()) {
             console.error(info.errors);
         }
-    
+
         if (stats.hasWarnings()) {
             console.warn(info.warnings);
         }

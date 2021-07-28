@@ -76,7 +76,7 @@ const exportConfig = (env) => {
                 }
             }
         }
-    
+
         return {
             module: {
                 rules: [

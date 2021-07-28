@@ -40,7 +40,7 @@ module.exports = (config, currentConfig) => {
             })
             webpackConfig.resolve.alias = {...webpackConfig.resolve.alias, ...originAlias}
         }
-        
+
     }
     // define env plugin
     if(config.env){
@@ -71,7 +71,7 @@ module.exports = (config, currentConfig) => {
 
     // devServer
     if(config.devServer){
-        webpackConfig.devServer = {...webpackConfig.devServer, ...config.devServer}        
+        webpackConfig.devServer = {...webpackConfig.devServer, ...config.devServer}
         // devServer.publicPath force cover output.publicPath
         if(webpackConfig.devServer.publicPath){
             webpackConfig.output.publicPath = webpackConfig.devServer.publicPath

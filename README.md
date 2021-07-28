@@ -65,18 +65,6 @@ module.exports = {
     // devServer
     devServer: {
         proxy: {
-            "/api": {
-                target: "http://teacher.235.mistong.com/",
-                changeOrigin: true,
-                secure: false,
-                // pathRewrite: {"^/api" : ""},
-            },
-            // login用于登录验证千万别去掉啊
-            '/login': {
-              target: 'http://teacher.235.mistong.com',
-              changeOrigin: true,
-              secure: false,
-            },
         },
         host: 'local.mistong.com',
         port: 3001,
