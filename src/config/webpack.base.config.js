@@ -36,6 +36,7 @@ module.exports = (config = {}) => {
                                     ...babelConfig.presets
                                 ],
                                 plugins: [
+                                    require.resolve('@umijs/babel-plugin-lock-core-js-3'),
                                     [
                                         require.resolve('@babel/plugin-transform-runtime'),
                                         {
